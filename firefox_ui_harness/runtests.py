@@ -26,9 +26,13 @@ class FirefoxUIHarness(MarionetteHarness):
         if self.args.installer:
             installer = os.path.realpath(self.args.installer)
 
-            dest_folder = os.path.abspath(os.path.expanduser(
-                os.path.join(self.args.workspace or '', 'binary')
-            ))
+            if not self.args.workspace:
+                self.args.installer_workspace = tempfile.mkdtemp(
+                    '.{}'.format(os.path.basename(sys.argv[0]))
+                )
+            else:
+                self.args.installer_workspace = self.args.workspace
+            dest_folder = os.path.join(self.args.installer_workspace, 'binary')
             self.args.logger.info(
                 'Installing application "%s" to "%s"' % (installer, dest_folder)
             )
