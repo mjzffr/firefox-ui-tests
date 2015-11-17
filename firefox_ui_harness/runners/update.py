@@ -47,8 +47,7 @@ class UpdateTestRunner(FirefoxUITestRunner):
     def duplicate_application(self, application_folder):
         """Creates a copy of the specified binary."""
 
-        target_folder = os.path.join(self.workspace or self.installer_workspace,
-                                     'binary.backup')
+        target_folder = os.path.join(self.installer_workspace, 'binary.backup')
 
         self.logger.info('Creating a copy of the application at "%s".' % target_folder)
         mozfile.remove(target_folder)
