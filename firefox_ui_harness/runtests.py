@@ -6,6 +6,7 @@ import os
 import sys
 import tempfile
 
+import mozfile
 import mozinstall
 from marionette.runtests import MarionetteHarness, cli as mn_cli
 
@@ -52,6 +53,15 @@ class FirefoxUIHarness(MarionetteHarness):
                 self.args.logger.info('Uninstalling application at '
                                       '"%s"' % self.install_folder)
                 mozinstall.uninstall(self.install_folder)
+            if not self.args.workspace:
+                self.args.logger.info(
+                    'Removing temporary installer workspace '
+                    'at "%s"' % self.args.installer_workspace
+                )
+                try:
+                    mozfile.remove(self.args.installer_workspace)
+                except IOError as e:
+                    self.logger.error('Cannot remove "%s"' % str(e))
 
 
 def cli():
